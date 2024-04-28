@@ -1,6 +1,6 @@
 import { z } from "zod";
 import bcrypt from "bcryptjs";
-import jwt, { type JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { cookies } from "next/headers";
 
@@ -44,28 +44,4 @@ export const loginRouter = createTRPCRouter({
         console.log(error);
       }
     }),
-
-  authorizeUser: publicProcedure.query(() => {
-    const cookieStore = cookies();
-
-    const cookie = cookieStore.get("token");
-
-    if (!cookie) {
-      return null;
-    }
-    const token = cookie.value;
-    try {
-      const decodedToken = jwt.verify(token, "KLJIODJFIONIOFNIONEFION");
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const userId: number = (decodedToken as JwtPayload).userId;
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      if (userId) {
-        return userId;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }),
 });

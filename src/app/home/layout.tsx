@@ -9,6 +9,5 @@ export default async function HomePageLayout({
 }) {
   // eslint-disable-next-line @typescript-eslint/await-thenable
   const session = await verifySession();
-  console.log(session);
   return <main>{session.userId ? children : redirect("/sign-in")}</main>;
 }
