@@ -58,13 +58,11 @@ export const loginRouter = createTRPCRouter({
       const decodedToken = jwt.verify(token, "KLJIODJFIONIOFNIONEFION");
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const userId = (decodedToken as JwtPayload).userId;
+      const userId: number = (decodedToken as JwtPayload).userId;
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      if (typeof userId === "number") {
-        return true;
-      } else {
-        return false;
+      if (userId) {
+        return userId;
       }
     } catch (error) {
       console.log(error);
