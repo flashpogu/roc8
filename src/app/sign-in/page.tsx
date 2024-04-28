@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { api } from "~/trpc/react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 type UserType = {
@@ -13,11 +13,11 @@ type UserType = {
 export default function SignIn() {
   const logginRegAndVerifiedUser = api.loginUser.loggingUser.useMutation();
   const { register, handleSubmit } = useForm<UserType>();
-  const router = useRouter();
+  // const router = useRouter();
   const onSubmit: SubmitHandler<UserType> = (data) => {
     if (data) {
       logginRegAndVerifiedUser.mutate(data);
-      router.push("/");
+      // router.push("/");
     }
   };
   return (

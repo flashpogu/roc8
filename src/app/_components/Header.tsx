@@ -4,7 +4,7 @@ import { GoChevronLeft } from "react-icons/go";
 import { GoChevronRight } from "react-icons/go";
 import Link from "next/link";
 
-export default function Header() {
+export default async function Header() {
   return (
     <>
       <div className="flex flex-col">
