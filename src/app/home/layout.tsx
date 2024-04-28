@@ -1,13 +1,14 @@
 import React from "react";
-import { api } from "~/trpc/server";
+import { verifySession } from "../dal";
+import { redirect } from "next/navigation";
 
 export default async function HomePageLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const authData = await api.loginUser.authorizeUser();
-  console.log(authData);
-
-  return <main>{children}</main>;
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  const session = await verifySession();
+  console.log(session);
+  return <main>{session.userId ? children : redirect("/sign-in")}</main>;
 }
