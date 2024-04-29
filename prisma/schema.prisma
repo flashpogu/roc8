@@ -20,13 +20,13 @@ model Post {
 }
 
 model User {
-  id              Int                 @id @default(autoincrement())
-  createdAt       DateTime            @default(now())
-  email           String              @unique
-  name            String
-  password        String
-  verified        Boolean
-  productSelected EcommerceProducts[]
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  email     String     @unique
+  name      String
+  password  String
+  verified  Boolean
+  products  Products[]
 }
 
 model OTPVerify {
@@ -38,9 +38,9 @@ model OTPVerify {
   expiresAt DateTime
 }
 
-model EcommerceProducts {
+model Products {
   id      Int    @id @default(autoincrement())
   product String
-  user    User?  @relation(fields: [userId], references: [id])
+  user    User[]
   userId  Int?
 }

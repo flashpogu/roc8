@@ -55,7 +55,7 @@ export default function SignIn() {
           <p className="text-center">
             Don’t have an Account?{" "}
             <Link href="/sign-up" className="font-bold">
-              LOGIN
+              REGISTER
             </Link>
           </p>
         </form>

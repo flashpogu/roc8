@@ -1,6 +1,11 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
+const AddProductInput = z.object({
+  userId: z.number(),
+  productId: z.number(),
+});
+
 export const getProductsRouter = createTRPCRouter({
   getAllProducts: publicProcedure
     .input(z.object({ page: z.number() }))
@@ -8,11 +13,30 @@ export const getProductsRouter = createTRPCRouter({
       const { page } = input;
       const pageSize = 6;
       const skip = (page - 1) * pageSize;
-
-      const allProducts = await ctx.db.ecommerceProducts.findMany({
+      const allProducts = await ctx.db.products.findMany({
         skip,
         take: pageSize,
       });
       return allProducts;
+    }),
+
+  addProductToSelected: publicProcedure
+    .input(AddProductInput)
+    .query(async ({ ctx, input }) => {
+      const { userId, productId } = input;
+
+      const user = await ctx.db.user.findUnique({ where: { id: userId } });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      const updatedUser = await ctx.db.user.update({
+        where: { id: userId },
+        data: {
+          products: {
+            set: [{ id: productId }],
+          },
+        },
+      });
+      return updatedUser;
     }),
 });

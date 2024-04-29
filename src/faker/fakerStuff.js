@@ -16,7 +16,7 @@ const createProduct = async () => {
   try {
     const productData = generateRandomProduct();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    const newProduct = await prisma.ecommerceProducts.create({
+    const newProduct = await prisma.products.create({
       data: productData,
     });
     console.log("Product created:", newProduct);

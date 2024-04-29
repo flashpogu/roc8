@@ -7,7 +7,16 @@ import PaginationComp from "../_components/PaginationComp";
 export default function page() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [pageNum, setPageNum] = useState<number>(1);
-  const { data: products } = api.get.getAllProducts.useQuery({ page: pageNum });
+  const { data: products } = api.get.getAllProducts.useQuery({
+    page: pageNum,
+  });
+
+  const { data } = api.get.addProductToSelected.useQuery({
+    userId: 1,
+    productId: 1,
+  });
+
+  console.log(data);
   return (
     <div className="flex items-center justify-center py-6">
       <div className="flex w-[42vw] flex-col gap-5 rounded-xl border border-gray-300 px-8 pb-28 pt-10">
