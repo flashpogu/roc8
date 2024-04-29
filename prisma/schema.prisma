@@ -41,6 +41,5 @@ model OTPVerify {
 model Products {
   id      Int    @id @default(autoincrement())
   product String
-  user    User[]
-  userId  Int?
+  user    User[] 
 }

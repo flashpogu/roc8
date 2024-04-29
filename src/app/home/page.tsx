@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import PaginationComp from "../_components/PaginationComp";
+import { useAuthStore } from "~/store";
 
 export default function page() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -11,9 +12,13 @@ export default function page() {
     page: pageNum,
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const userIdFromGlobalState = useAuthStore((state) => state.userID);
+  console.log(userIdFromGlobalState);
+
   const { data } = api.get.addProductToSelected.useQuery({
     userId: 1,
-    productId: 1,
+    productId: 4,
   });
 
   console.log(data);

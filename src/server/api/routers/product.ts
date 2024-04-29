@@ -29,11 +29,55 @@ export const getProductsRouter = createTRPCRouter({
       if (!user) {
         throw new Error("User not found");
       }
+
+      const product = await ctx.db.products.findUnique({
+        where: { id: productId },
+      });
+      if (!product) {
+        throw new Error("Product not found");
+      }
+
       const updatedUser = await ctx.db.user.update({
         where: { id: userId },
         data: {
           products: {
-            set: [{ id: productId }],
+            connect: [
+              {
+                id: productId,
+              },
+            ],
+          },
+        },
+      });
+      return updatedUser;
+    }),
+
+  addProductToDeselect: publicProcedure
+    .input(AddProductInput)
+    .query(async ({ ctx, input }) => {
+      const { userId, productId } = input;
+
+      const user = await ctx.db.user.findUnique({ where: { id: userId } });
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const product = await ctx.db.products.findUnique({
+        where: { id: productId },
+      });
+      if (!product) {
+        throw new Error("Product not found");
+      }
+
+      const updatedUser = await ctx.db.user.update({
+        where: { id: userId },
+        data: {
+          products: {
+            disconnect: [
+              {
+                id: productId,
+              },
+            ],
           },
         },
       });

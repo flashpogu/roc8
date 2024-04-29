@@ -1,11 +1,10 @@
-import "server-only";
-
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const verifySession = () => {
   const cookie = cookies().get("token")?.value;
+  console.log(cookie);
   const session = verifyJwt(cookie ?? "");
 
   if (!session) {
@@ -29,4 +28,10 @@ const verifyJwt = (token: string) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const getUser = () => {
+  const session = verifySession();
+  if (!session) return null;
+  return session.userId;
 };
